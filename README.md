@@ -1,59 +1,218 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Student Attendance Management System - Backend (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A REST API built with Laravel 12 for managing student attendance records with authentication, CRUD operations, and reporting features.
 
-## About Laravel
+## 📋 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   🔐 **Authentication** - Laravel Sanctum token-based authentication
+-   👥 **Student Management** - Full CRUD operations with photo uploads
+-   📊 **Attendance Tracking** - Single and bulk attendance recording
+-   📈 **Reports** - Monthly attendance reports with statistics
+-   🚀 **Performance** - Redis caching for optimized queries
+-   📧 **Notifications** - Event-driven attendance notifications
+-   🛠️ **CLI Tools** - Custom Artisan commands for report generation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📦 Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Before you begin, ensure you have the following installed:
 
-## Learning Laravel
+-   PHP >= 8.2
+-   Composer
+-   MySQL >= 8.0
+-   Redis (optional, can use file cache)
+-   Node.js & NPM (for asset compilation if needed)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Clone the Repository
 
-## Laravel Sponsors
+git clone <your-repository-url>
+cd student-attendance-backend
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
 
-### Premium Partners
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. Environment Setup
 
-## Contributing
+# Copy environment file
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+cp .env.example .env
 
-## Code of Conduct
+# Generate application key
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+php artisan key:generate
 
-## Security Vulnerabilities
+### 4. Configure Environment Variables
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Edit `.env` file with your database and application settings:
+env
+APP_NAME="Student Attendance System"
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
 
-## License
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=student_attendance
+DB_USERNAME=root
+DB_PASSWORD=your_password
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+CACHE_DRIVER=redis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+FILESYSTEM_DISK=public
+
+SANCTUM_STATEFUL_DOMAINS=localhost:5173,127.0.0.1:5173
+SESSION_DRIVER=cookie
+SESSION_DOMAIN=localhost
+
+### 5. Create Database
+
+php artisan migrate
+
+### 6. Run Database Seeder
+
+php artisan db:seed
+
+### 7. Create Storage Link
+
+php artisan storage:link
+
+**Default credentials after seeding:**
+
+-   Email: `admin@gmail.com`
+-   Password: `password`
+
+### 9. Clear cache, routes, views
+
+php artisan optimize:clear
+
+### 10. Start the Server
+
+php artisan serve
+Your API will be available at `http://localhost:8000`
+
+## 🔧 Additional Setup
+
+### Redis Setup (Optional but Recommended)
+
+**Ubuntu/Debian:**
+
+sudo apt-get install redis-server
+sudo service redis-server start
+
+**macOS:**
+
+brew install redis
+brew services start redis
+
+**Windows:**
+Download from [Redis GitHub Releases](https://github.com/microsoftarchive/redis/releases)
+
+**If not using Redis**, change in `.env`:
+env
+CACHE_DRIVER=file
+
+### Queue Worker (Optional)
+
+For background jobs and notifications:
+
+php artisan queue:work
+
+## 📚 API Documentation
+
+### Authentication Endpoints
+
+| Method | Endpoint        | Description            | Auth Required |
+| ------ | --------------- | ---------------------- | ------------- |
+| POST   | `/api/register` | Register new user      | No            |
+| POST   | `/api/login`    | Login user             | No            |
+| GET    | `/api/user`     | Get authenticated user | Yes           |
+| POST   | `/api/logout`   | Logout user            | Yes           |
+
+### Student Endpoints
+
+| Method | Endpoint             | Description        | Auth Required |
+| ------ | -------------------- | ------------------ | ------------- |
+| GET    | `/api/students`      | List all students  | Yes           |
+| POST   | `/api/students`      | Create student     | Yes           |
+| GET    | `/api/students/{id}` | Get single student | Yes           |
+| PUT    | `/api/students/{id}` | Update student     | Yes           |
+| DELETE | `/api/students/{id}` | Delete student     | Yes           |
+
+### Attendance Endpoints
+
+| Method | Endpoint                         | Description               | Auth Required |
+| ------ | -------------------------------- | ------------------------- | ------------- |
+| GET    | `/api/attendance`                | List attendance records   | Yes           |
+| POST   | `/api/attendance`                | Record single attendance  | Yes           |
+| POST   | `/api/attendance/bulk`           | Bulk attendance recording | Yes           |
+| GET    | `/api/attendance/report/monthly` | Monthly report            | Yes           |
+| GET    | `/api/attendance/statistics`     | Get statistics            | Yes           |
+
+## 🧪 Testing API
+
+### Using cURL
+
+**Register:**
+
+curl -X POST http://localhost:8000/api/register \
+ -H "Content-Type: application/json" \
+ -H "Accept: application/json" \
+ -d '{
+"name": "John Doe",
+"email": "john@example.com",
+"password": "password123",
+"password_confirmation": "password123"
+}'
+
+**Login:**
+
+curl -X POST http://localhost:8000/api/login \
+ -H "Content-Type: application/json" \
+ -H "Accept: application/json" \
+ -d '{
+"email": "admin@example.com",
+"password": "password123"
+}'
+
+**Create Student (with token):**
+
+curl -X POST http://localhost:8000/api/students \
+ -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+ -H "Accept: application/json" \
+ -F "name=Jane Doe" \
+ -F "student_id=STU001" \
+ -F "class=Class 10" \
+ -F "section=A"
+
+**Bulk Attendance:**
+
+curl -X POST http://localhost:8000/api/attendance/bulk \
+ -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+ -H "Content-Type: application/json" \
+ -H "Accept: application/json" \
+ -d '{
+"date": "2024-11-16",
+"recorded_by": "Teacher Name",
+"attendances": [
+{"student_id": 1, "status": "present"},
+{"student_id": 2, "status": "absent", "note": "Sick leave"}
+]
+}'
+
+## 🎯 Custom Artisan Commands
+
+### Generate Attendance Report
+
+# Report for all classes
+
+php artisan attendance:generate 2025-11
+
+# Report for specific class
+
+php artisan attendance:generate-report 2025-11 "Class 10"

@@ -40,4 +40,6 @@ class Student extends Model
 
         return $total > 0 ? round(($present / $total) * 100, 2) : 0;
     }
+
+  
 }
